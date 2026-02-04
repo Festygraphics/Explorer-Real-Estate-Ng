@@ -1,7 +1,12 @@
 
-import { GoogleGenAI, Type } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
-const ai = new GoogleGenAI({ apiKey: process.env.API_KEY || '' });
+// Use a getter to handle potential missing API keys gracefully
+const getAIClient = () => {
+  const apiKey = process.env.API_KEY || '';
+  if (!apiKey) return null;
+  return new GoogleGenAI({ apiKey });
+};
 
 export const generatePropertyDescription = async (details: {
   title: string;
@@ -11,6 +16,9 @@ export const generatePropertyDescription = async (details: {
   features: string[];
 }): Promise<string> => {
   try {
+    const ai = getAIClient();
+    if (!ai) return "AI Assistant unavailable. Please enter description manually.";
+
     const prompt = `Write a professional, enticing real estate description for a ${details.type} called "${details.title}" located in ${details.location}. It has ${details.bedrooms} bedrooms and includes these features: ${details.features.join(', ')}. Keep it between 100-150 words. Focus on lifestyle benefits.`;
 
     const response = await ai.models.generateContent({
