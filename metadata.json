@@ -1,0 +1,7 @@
+{
+  "name": "Explorer Homes - Real Estate Portal",
+  "description": "A premium real estate listing platform with advanced filtering, admin property management, and Gemini-powered description assistant.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
